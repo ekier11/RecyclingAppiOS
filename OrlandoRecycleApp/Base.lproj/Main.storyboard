@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -60,6 +60,7 @@
                                                 </constraints>
                                                 <connections>
                                                     <action selector="upcButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="vd9-SQ-82D"/>
+                                                    <segue destination="iBr-La-XQd" kind="show" id="jpr-Iu-QBY"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p9H-Cq-gb2">
@@ -420,6 +421,13 @@
                                 <color key="textColor" red="0.080363176760000002" green="0.13500440120000001" blue="0.22353959079999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xAY-Fr-C4u">
+                                <rect key="frame" x="45" y="496" width="310" height="41"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="eMH-tf-GP8"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -451,6 +459,7 @@
                     </view>
                     <connections>
                         <outlet property="homeButton" destination="VJS-ke-bq3" id="fcI-3Y-2KS"/>
+                        <outlet property="productText" destination="xAY-Fr-C4u" id="eYV-aa-xS0"/>
                         <outlet property="recyclableResultLabel" destination="DvV-L2-wwN" id="PkZ-JC-n5o"/>
                         <outlet property="zeroWasteInfoButton" destination="7Ow-mq-cQ3" id="f5u-Mw-dRg"/>
                         <outlet property="zeroWasteMessageLabel" destination="puL-NA-CnP" id="Vxo-ir-xj7"/>
@@ -460,9 +469,25 @@
             </objects>
             <point key="canvasLocation" x="1673.913043478261" y="-220.3125"/>
         </scene>
+        <!--ScannerViewController-->
+        <scene sceneID="Wyj-9Z-M40">
+            <objects>
+                <viewController id="iBr-La-XQd" userLabel="ScannerViewController" customClass="ScannerViewController" customModule="OrlandoRecycleApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="gH8-IA-Wrg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="mwt-Cw-svn"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="TML-mK-Jkf"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RPX-0V-prH" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2416" y="-219"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="RsL-ib-y9x"/>
+        <segue reference="wD9-vx-zhH"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="GreenWorksLogo" width="754" height="200"/>
