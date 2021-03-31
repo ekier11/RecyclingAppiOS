@@ -8,6 +8,10 @@
 import UIKit
 import SQLite3
 
+/**@objc protocol ScannerViewDelegate: class {
+    func didFindScannedText(text: String)
+}**/
+
 class ViewController: UIViewController {
     @IBOutlet weak var zeroWasteLabel: UILabel!
     @IBOutlet weak var upcScanButton: UIButton!
@@ -49,9 +53,7 @@ class ViewController: UIViewController {
         print("Search bar button pressed")
     }
     
-    @objc func scanBarTapped() {
-        self.navigationController?.pushViewController(scannerViewController, animated: true)
-    }
+
 }
     
 

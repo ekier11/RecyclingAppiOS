@@ -12,10 +12,13 @@ import SQLite3
     @objc func didFindScannedText(text: String)
 }
 
+
+
+
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
-    
+
     var db: OpaquePointer?
     
 
@@ -95,8 +98,6 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
             found(code: stringValue, productName: stringValue)
         }
-        
-        dismiss(animated: true)
     }
     
     func found(code: String, productName: String) {
@@ -126,8 +127,12 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             print(isRecyclable)
             print(productName)
             delegate?.didFindScannedText(text: productName)
-            self.navigationController?.present(FinalViewController(), animated: true)
-
+            let fvc = FinalViewController()
+            fvc.productText?.text = productName
+            let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+            let navController = UINavigationController(rootViewController: finalView)
+            present(navController, animated: true, completion: nil)
+            //self.navigationController?.pushViewController(finalView, animated: true)
         }
     }
     
