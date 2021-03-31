@@ -22,7 +22,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
     var db: OpaquePointer?
     
 
-    @objc public weak var delegate: ScannerViewDelegate?
+    public weak var delegate: ScannerViewDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -105,6 +105,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         print(code)
         print(productName)
         
+
         let dbUrl = Bundle.main.url(forResource: "products", withExtension: "db")
         let dbPath = dbUrl?.path
         
@@ -123,17 +124,20 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         }
         while sqlite3_step(statement) == SQLITE_ROW {
             let productName = String(cString: sqlite3_column_text(statement, 0))
-            let isRecyclable = Int(sqlite3_column_int(statement, 1))
+            let isRecyclable = Int(sqlite3_column_int(statement, 0))
             print(isRecyclable)
             print(productName)
-            delegate?.didFindScannedText(text: productName)
-            let fvc = FinalViewController()
-            fvc.productText?.text = productName
+            //delegate?.didFindScannedText(text: productName)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+            finalView.text = productName
             let navController = UINavigationController(rootViewController: finalView)
             present(navController, animated: true, completion: nil)
-            //self.navigationController?.pushViewController(finalView, animated: true)
+            self.navigationController?.pushViewController(finalView, animated: true)
+            //self.performSegue(withIdentifier: "FinalViewSegue", sender: self)
+            
+            
         }
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

@@ -8,7 +8,7 @@ import UIKit
 
 class FinalViewController: UIViewController {
 
-    
+
     @IBOutlet weak var recyclableResultLabel: UILabel!
     @IBOutlet weak var zeroWasteMessageLabel: UILabel!
     @IBOutlet weak var productText: UILabel!
@@ -17,11 +17,16 @@ class FinalViewController: UIViewController {
     let scannerViewController = ScannerViewController()
     public weak var delegate: ScannerViewDelegate?
     
+    var text: String = "lol" 
+    
+    
     override func viewDidLoad() {
-        scannerViewController.delegate = self
-        updateUI()
         super.viewDidLoad()
-        print("Final View")
+        updateUI()
+        scannerViewController.delegate = self
+        productText?.text = text
+
+        //print("Final View")
         // Do any additional setup after loading the view.
         //updateUI()
             //from db
@@ -38,8 +43,10 @@ extension FinalViewController: ScannerViewDelegate {
 }
 
 
+
 extension FinalViewController {
     private func updateUI() {
+        productText.text = text
         //productText.text = "Hello"
         productText.textAlignment = .center
         productText.textColor = UIColor.white
