@@ -38,7 +38,7 @@ class FinalViewController: UIViewController {
     }
 }
 
-/*
+
 extension FinalViewController: ScannerViewDelegate {
     func didFindScannedText(text: String) {
         productText.text = text
