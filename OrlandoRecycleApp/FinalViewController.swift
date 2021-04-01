@@ -20,10 +20,13 @@ class FinalViewController: UIViewController {
     
     var text: String = ""
     var recycle: Int = 0
+    var recycleBit: Int = 0   // -1=No Match, 0=not Recyclable, 1=recyclable
+    var productName: String = ""
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //scannerViewController.delegate = self
         updateUI()
         scannerViewController.delegate = self
         productText?.text = text
@@ -35,7 +38,7 @@ class FinalViewController: UIViewController {
     }
 }
 
-
+/*
 extension FinalViewController: ScannerViewDelegate {
     func didFindScannedText(text: String) {
         productText.text = text
@@ -48,10 +51,28 @@ extension FinalViewController {
         recyclableResultLabel.textAlignment = .center
         productText.text = text
         //productText.text = "Hello"
+        
+        //Handle "Recyclable" UILabel text
+        if(recycleBit == 0){
+            recyclableResultLabel.text = "Not Recyclable"
+            recyclableResultLabel.textColor = UIColor.black
+        }
+        else if(recycleBit == 1){
+            recyclableResultLabel.text = "Recyclable!"
+            recyclableResultLabel.textColor = UIColor.green
+        }
+        else if(recycleBit == -1){
+            recyclableResultLabel.text = "No Match Found"
+            recyclableResultLabel.textColor = UIColor.black
+        }
+        //Handle Product Name UILabel text
+        productText.text = productName
         productText.textAlignment = .center
         productText.textColor = UIColor.black
         productText.font = (UIFont(name: "AppleSDGothicNeo-Bold", size: 25))
+        
         //recyclableImage.isHidden = true
+        
     }
 }
 
