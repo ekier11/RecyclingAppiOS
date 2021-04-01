@@ -8,7 +8,8 @@ import UIKit
 
 class FinalViewController: UIViewController {
 
-
+    @IBOutlet weak var checkMark: UIImageView!
+    @IBOutlet weak var xMark: UIImageView!
     @IBOutlet weak var recyclableResultLabel: UILabel!
     @IBOutlet weak var zeroWasteMessageLabel: UILabel!
     @IBOutlet weak var productText: UILabel!
@@ -17,7 +18,8 @@ class FinalViewController: UIViewController {
     let scannerViewController = ScannerViewController()
     public weak var delegate: ScannerViewDelegate?
     
-    var text: String = "lol" 
+    var text: String = ""
+    var recycle: Int = 0
     
     
     override func viewDidLoad() {
@@ -25,31 +27,29 @@ class FinalViewController: UIViewController {
         updateUI()
         scannerViewController.delegate = self
         productText?.text = text
-
-        //print("Final View")
-        // Do any additional setup after loading the view.
-        //updateUI()
-            //from db
+        if (recycle == 0) {
+            recyclableResultLabel.text = "Is Recyclable"
+        } else {
+            recyclableResultLabel.text = "Is NOT Recyclale"
+        }
     }
 }
 
 
 extension FinalViewController: ScannerViewDelegate {
     func didFindScannedText(text: String) {
-        print("kraft")
         productText.text = text
-        //from db
+        checkMark.isHidden = false
     }
 }
 
-
-
 extension FinalViewController {
     private func updateUI() {
+        recyclableResultLabel.textAlignment = .center
         productText.text = text
         //productText.text = "Hello"
         productText.textAlignment = .center
-        productText.textColor = UIColor.white
+        productText.textColor = UIColor.black
         productText.font = (UIFont(name: "AppleSDGothicNeo-Bold", size: 25))
         //recyclableImage.isHidden = true
     }

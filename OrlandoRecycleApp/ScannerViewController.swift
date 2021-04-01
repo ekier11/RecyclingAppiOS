@@ -114,30 +114,39 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             sqlite3_close(db)
         }
         
-        
         let requestProduct = "select ProductName from products WHERE UPC_ID = \"\(code)\""
+        let requestRecyclable = "select IsRecyclable from products WHERE UPC_ID = \"\(code)\""
         print(requestProduct)
+        
+    
         if sqlite3_prepare_v2(db, requestProduct, -1, &statement, nil) != SQLITE_OK {
             
             print("Error retrieving data")
             return
         }
+        
         while sqlite3_step(statement) == SQLITE_ROW {
             let productName = String(cString: sqlite3_column_text(statement, 0))
-            let isRecyclable = Int(sqlite3_column_int(statement, 0))
-            print(isRecyclable)
             print(productName)
-            //delegate?.didFindScannedText(text: productName)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
             finalView.text = productName
             let navController = UINavigationController(rootViewController: finalView)
             present(navController, animated: true, completion: nil)
             self.navigationController?.pushViewController(finalView, animated: true)
-            //self.performSegue(withIdentifier: "FinalViewSegue", sender: self)
-            
-            
         }
         
+        if sqlite3_prepare_v2(db, requestRecyclable, -1, &statement, nil) != SQLITE_OK {
+            
+            print("Error retrieving data")
+            return
+        }
+        
+        while sqlite3_step(statement) == SQLITE_ROW {
+            let isRecyclable = Int(sqlite3_column_int(statement, 3))
+            print(isRecyclable)
+            let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+            finalView.text = productName
+        }
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
