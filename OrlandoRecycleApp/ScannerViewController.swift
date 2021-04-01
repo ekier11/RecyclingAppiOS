@@ -129,7 +129,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             print(productName)
             //delegate?.didFindScannedText(text: productName)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
-            finalView.text = productName
+            finalView.productName = productName
             let navController = UINavigationController(rootViewController: finalView)
             present(navController, animated: true, completion: nil)
             self.navigationController?.pushViewController(finalView, animated: true)
