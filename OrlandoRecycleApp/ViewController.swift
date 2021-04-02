@@ -38,12 +38,12 @@ class ViewController: UIViewController {
 
 
     @objc func upcButtonPressed(_ sender: Any) {
-        //self.navigationController?.pushViewController(scannerViewController, animated: true)
+        self.navigationController?.pushViewController(scannerViewController, animated: true)
         print("UPC scan button pressed. Will go to final screen")
     }
     
     @IBAction func productButtonPressed(_ sender: Any) {
-        //present(textDetectionViewController, animated: true)
+        present(textDetectionViewController, animated: true)
         //self.navigationController?.pushViewController(textDetectionViewController, animated: true)
         print("Product scan button pressed. Will go to final screen")
     }
