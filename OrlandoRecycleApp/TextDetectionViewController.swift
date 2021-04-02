@@ -20,14 +20,12 @@ var sharedProductBit: Int = -999
 
 
 class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
-    
-    
+
     //UI Elements
     @IBOutlet weak var videoPreview: UIView!
     @IBOutlet weak var ocrData1: UILabel!
     @IBOutlet weak var ocrData2: UILabel!
     @IBOutlet weak var ocrData3: UILabel!
-    @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var searchButton: UIButton!
     
     //Variables
@@ -262,11 +260,10 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             sharedProductPrologue = "You most likely have"
             sharedProductName = theChosenProduct.productName!
             sharedProductBit = theChosenProduct.recyclableBit
+            
         }
         let finalViewController = FinalViewController()
-        finalViewController.recycleBit = sharedProductBit
-        finalViewController.productName = sharedProductName
-        present(finalViewController, animated: true) //Change View Controller to results
+        present(finalViewController, animated: true) //Change FinalViewController
     }
     
     
@@ -279,7 +276,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         if sqlite3_open(dbPath, &db) != SQLITE_OK{
             print("DATAWORLD: error opening database")
         }
-        else { print("DATAWORLD: Successfully opened connection to DB at \(dbUrl)") }
+        else { print("DATAWORLD: Successfully opened connection to DB at \(String(describing: dbUrl))") }
         
         //Empty the list of Products
         productList.removeAll()
@@ -307,6 +304,19 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             productList.append(Product(upc: String(upc), productName: String(describing: productName), recyclableBit: Int(recyclableBit)))
         }
     }
+    
+    //Open Final View Controller and send data over
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let text = sharedProductName
+        let recycle = sharedProductBit
+        
+        
+        // Create a new variable to store the instance of the SecondViewController
+        // set the variable from the SecondViewController that will receive the data
+        let destinationVC = segue.destination as! FinalViewController
+        destinationVC.text = text
+        destinationVC.recycle = recycle
+    }
 }
 
 
@@ -322,6 +332,7 @@ class Product {
         self.recyclableBit = recyclableBit
     }
 }
+
     
 /*
     //** Creates and Processes Object Recognitions Requests **//
@@ -339,24 +350,6 @@ class Product {
         
         //Perform Object Recognition through request using buffer (showtime baby)
         try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request_ObjectDetection])
-    }
-}
-
-
-//[] This class is responsible for the results screen. It only consists of UILabels []//
-class searchResults: UIViewController {
-    
-    @IBOutlet weak var labelPrologue: UITextView!
-    @IBOutlet weak var labelProduct: UILabel!
-    @IBOutlet weak var labelInfo: UILabel!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        DispatchQueue.main.async() {            //update uilabels
-            self.labelPrologue.text = sharedProductPrologue
-            self.labelProduct.text = sharedProductName
-            self.labelInfo.text = sharedProductInfo
-        }
     }
 }
 */
