@@ -128,9 +128,9 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             let recycleMessage = String(cString: sqlite3_column_text(statement, 3))
             print(recycleMessage)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
-            finalView.productName = productName
-            finalView.recycleBit = recyclableBit
-            finalView.recycleLabelMessage = recycleMessage
+            finalView.text = productName
+            finalView.recycle = recyclableBit
+            finalView.zeroWasteMessage = recycleMessage
             let navController = UINavigationController(rootViewController: finalView)
             present(navController, animated: true, completion: nil)
             self.navigationController?.pushViewController(finalView, animated: true)
