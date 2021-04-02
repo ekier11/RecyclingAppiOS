@@ -129,7 +129,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             let productName = String(cString: sqlite3_column_text(statement, 0))
             print(productName)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
-            finalView.productName = productName
+            finalView.text = productName
             let navController = UINavigationController(rootViewController: finalView)
             present(navController, animated: true, completion: nil)
             self.navigationController?.pushViewController(finalView, animated: true)
