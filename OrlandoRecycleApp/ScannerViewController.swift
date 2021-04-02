@@ -18,7 +18,7 @@ import SQLite3
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
-
+    var sharedProductBit: Int = -999
     var db: OpaquePointer?
     
 
@@ -114,26 +114,7 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             sqlite3_close(db)
         }
         
-        let requestProduct = "select ProductName from products WHERE UPC_ID = \"\(code)\""
-        let requestRecyclable = "select IsRecyclable from products WHERE UPC_ID = \"\(code)\""
-        print(requestProduct)
-        
-    
-        if sqlite3_prepare_v2(db, requestProduct, -1, &statement, nil) != SQLITE_OK {
-            
-            print("Error retrieving data")
-            return
-        }
-        
-        while sqlite3_step(statement) == SQLITE_ROW {
-            let productName = String(cString: sqlite3_column_text(statement, 0))
-            print(productName)
-            let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
-            finalView.productName = productName
-            let navController = UINavigationController(rootViewController: finalView)
-            present(navController, animated: true, completion: nil)
-            self.navigationController?.pushViewController(finalView, animated: true)
-        }
+        let requestRecyclable = "select * from products WHERE UPC_ID = \"\(code)\""
         
         if sqlite3_prepare_v2(db, requestRecyclable, -1, &statement, nil) != SQLITE_OK {
             
@@ -142,10 +123,17 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         }
         
         while sqlite3_step(statement) == SQLITE_ROW {
-            let isRecyclable = Int(sqlite3_column_int(statement, 3))
-            print(isRecyclable)
+            let productName = String(cString: sqlite3_column_text(statement, 1))
+            let recyclableBit = Int(sqlite3_column_int(statement, 2))
+            let recycleMessage = String(cString: sqlite3_column_text(statement, 3))
+            print(recycleMessage)
             let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
-            finalView.text = productName
+            finalView.productName = productName
+            finalView.recycleBit = recyclableBit
+            finalView.recycleLabelMessage = recycleMessage
+            let navController = UINavigationController(rootViewController: finalView)
+            present(navController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(finalView, animated: true)
         }
     }
     
