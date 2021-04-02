@@ -7,7 +7,7 @@
 import UIKit
 
 class FinalViewController: UIViewController {
-
+    
     @IBOutlet weak var checkMark: UIImageView!
     @IBOutlet weak var xMark: UIImageView!
     @IBOutlet weak var recyclableResultLabel: UILabel!
@@ -18,48 +18,34 @@ class FinalViewController: UIViewController {
     let scannerViewController = ScannerViewController()
     public weak var delegate: ScannerViewDelegate?
     
-    var text: String = ""
     var recycle: Int = 0
     var recycleBit: Int = 0   // -1=No Match, 0=not Recyclable, 1=recyclable
     var productName: String = ""
+    var recycleLabelMessage: String = ""
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //scannerViewController.delegate = self
         updateUI()
-        scannerViewController.delegate = self
-        productText?.text = text
-        if (recycle == 0) {
-            recyclableResultLabel.text = "Is Recyclable"
-        } else {
-            recyclableResultLabel.text = "Is NOT Recyclale"
-        }
-    }
-}
-
-
-extension FinalViewController: ScannerViewDelegate {
-    func didFindScannedText(text: String) {
-        productText.text = text
-        checkMark.isHidden = false
     }
 }
 
 extension FinalViewController {
     private func updateUI() {
-        recyclableResultLabel.textAlignment = .center
-        productText.text = text
-        //productText.text = "Hello"
-        
         //Handle "Recyclable" UILabel text
         if(recycleBit == 0){
             recyclableResultLabel.text = "Not Recyclable"
-            recyclableResultLabel.textColor = UIColor.black
+            recyclableResultLabel.textAlignment = .center
+            recyclableResultLabel.textColor = UIColor.red
+            xMark.isHidden = false
         }
         else if(recycleBit == 1){
             recyclableResultLabel.text = "Recyclable!"
-            recyclableResultLabel.textColor = UIColor.green
+            recyclableResultLabel.textAlignment = .center
+            recyclableResultLabel.textColor = UIColor.systemGreen
+            recyclableResultLabel.isHidden = false
+            zeroWasteMessageLabel.text = recycleLabelMessage
+            checkMark.isHidden = false
         }
         else if(recycleBit == -1){
             recyclableResultLabel.text = "No Match Found"
@@ -70,8 +56,6 @@ extension FinalViewController {
         productText.textAlignment = .center
         productText.textColor = UIColor.black
         productText.font = (UIFont(name: "AppleSDGothicNeo-Bold", size: 25))
-        
-        //recyclableImage.isHidden = true
         
     }
 }
