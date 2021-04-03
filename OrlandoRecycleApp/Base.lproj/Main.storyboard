@@ -74,10 +74,10 @@
                                                     <segue destination="gwF-2g-rk9" kind="show" id="tK1-cE-Vh5"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SCAN YOUR ITEM'S BARCODE TO SEE IF IT'S RECYCLABLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="clT-4I-EwD">
-                                                <rect key="frame" x="92" y="248" width="216" height="43"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SCAN YOUR ITEM'S BARCODE TO SEE IF IT'S RECYCLABLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="clT-4I-EwD">
+                                                <rect key="frame" x="92" y="235" width="216" height="56"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="43" id="Zrm-3W-JaC"/>
+                                                    <constraint firstAttribute="height" constant="56" id="Zrm-3W-JaC"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.080363176760000002" green="0.13500440120000001" blue="0.22353959079999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -149,10 +149,10 @@
                                                     <constraint firstAttribute="height" constant="85" id="a3D-sE-qOO"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAKE A PHOTO OF YOUR ITEM TO SEE IF IT'S RECYCLABLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jac-GV-eSF">
-                                                <rect key="frame" x="96" y="467" width="212" height="45"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TAKE A PHOTO OF YOUR ITEM TO SEE IF IT'S RECYCLABLE" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jac-GV-eSF">
+                                                <rect key="frame" x="96" y="430" width="212" height="82"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="45" id="TN0-1y-W0p"/>
+                                                    <constraint firstAttribute="height" constant="82" id="TN0-1y-W0p"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" red="0.080363176760000002" green="0.13500440120000001" blue="0.22353959079999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -215,7 +215,7 @@
                                             <constraint firstItem="Lju-jO-ari" firstAttribute="top" secondItem="clT-4I-EwD" secondAttribute="bottom" constant="11" id="Jo0-rk-rj9"/>
                                             <constraint firstItem="KOm-Ih-B2d" firstAttribute="leading" secondItem="llc-hj-HSL" secondAttribute="leading" constant="19" id="JtR-OJ-53l"/>
                                             <constraint firstAttribute="trailing" secondItem="clT-4I-EwD" secondAttribute="trailing" constant="106" id="KCm-cR-nkq"/>
-                                            <constraint firstItem="jac-GV-eSF" firstAttribute="top" secondItem="pBw-gn-N8F" secondAttribute="bottom" constant="35" id="Ldj-FV-YHw"/>
+                                            <constraint firstItem="jac-GV-eSF" firstAttribute="top" secondItem="pBw-gn-N8F" secondAttribute="bottom" constant="-2" id="Ldj-FV-YHw"/>
                                             <constraint firstItem="pBw-gn-N8F" firstAttribute="leading" secondItem="llc-hj-HSL" secondAttribute="leading" constant="99" id="LvG-y3-9US"/>
                                             <constraint firstAttribute="bottom" secondItem="PdM-xy-lIn" secondAttribute="bottom" constant="-15" id="Mk7-w3-9Fv"/>
                                             <constraint firstAttribute="trailing" secondItem="Wt4-Q5-UcM" secondAttribute="trailing" constant="46" id="NrE-JP-hgX"/>
@@ -229,7 +229,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Ldx-EM-2g1" secondAttribute="trailing" constant="27" id="S4c-Og-at5"/>
                                             <constraint firstItem="tFw-Dl-rQN" firstAttribute="top" secondItem="llc-hj-HSL" secondAttribute="top" constant="30" id="SIy-kh-dX6"/>
                                             <constraint firstItem="p9H-Cq-gb2" firstAttribute="leading" secondItem="llc-hj-HSL" secondAttribute="leading" constant="104" id="UNZ-gl-Ubt"/>
-                                            <constraint firstItem="clT-4I-EwD" firstAttribute="top" secondItem="Wt4-Q5-UcM" secondAttribute="bottom" constant="6" id="Vax-hh-dBO"/>
+                                            <constraint firstItem="clT-4I-EwD" firstAttribute="top" secondItem="Wt4-Q5-UcM" secondAttribute="bottom" constant="-7" id="Vax-hh-dBO"/>
                                             <constraint firstItem="WlQ-Q0-lro" firstAttribute="top" secondItem="PcC-GO-p3y" secondAttribute="bottom" constant="29" id="WRN-M7-sMq"/>
                                             <constraint firstItem="Mnh-H8-Jro" firstAttribute="top" secondItem="K9N-lh-KDZ" secondAttribute="bottom" constant="3" id="WSS-At-Z7n"/>
                                             <constraint firstAttribute="height" constant="1900" id="X3v-As-XBs"/>
@@ -639,7 +639,7 @@
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="JYk-t6-wiX"/>
-        <segue reference="wD9-vx-zhH"/>
+        <segue reference="RsL-ib-y9x"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="GreenWorksLogo" width="754" height="200"/>
