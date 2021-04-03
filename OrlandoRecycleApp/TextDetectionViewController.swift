@@ -253,14 +253,17 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             sharedProductPrologue = "No matches"
             sharedProductName = "Please try again."
             sharedProductBit = -1
+            sharedProductInfo = ""
         }
         else{ //Bingo
             let theChosenProduct = productList[highestDetection]
             print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.productName)) ]]")
+            print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.recyclableBit)) ]]")
+            print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.recycleMessage)) ]]")
             sharedProductPrologue = "You most likely have"
             sharedProductName = theChosenProduct.productName!
             sharedProductBit = theChosenProduct.recyclableBit
-            
+            sharedProductInfo = theChosenProduct.recycleMessage!
         }
         let finalViewController = FinalViewController()
         present(finalViewController, animated: true) //Change FinalViewController
@@ -277,6 +280,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             print("DATAWORLD: error opening database")
         }
         else { print("DATAWORLD: Successfully opened connection to DB at \(String(describing: dbUrl))") }
+        
         
         //Empty the list of Products
         productList.removeAll()
@@ -301,7 +305,8 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             let upc = String(cString: sqlite3_column_text(stmt, 0))
             let productName = String(cString: sqlite3_column_text(stmt, 1))
             let recyclableBit = sqlite3_column_int(stmt, 2)
-            productList.append(Product(upc: String(upc), productName: String(describing: productName), recyclableBit: Int(recyclableBit)))
+            let recycleMessage = String(cString: sqlite3_column_text(stmt, 3))
+            productList.append(Product(upc: String(upc), productName: String(describing: productName),                                        recyclableBit: Int(recyclableBit), recycleMessage: String(describing: recycleMessage)))
         }
     }
     
@@ -309,6 +314,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let text = sharedProductName
         let recycle = sharedProductBit
+        let zeroWasteMessage = sharedProductInfo
         
         
         // Create a new variable to store the instance of the SecondViewController
@@ -316,6 +322,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         let destinationVC = segue.destination as! FinalViewController
         destinationVC.text = text
         destinationVC.recycle = recycle
+        destinationVC.zeroWasteMessage = zeroWasteMessage
     }
 }
 
@@ -325,11 +332,13 @@ class Product {
     var upc: String?
     var productName: String?
     var recyclableBit: Int
+    var recycleMessage: String?
     
-    init(upc: String?, productName: String?, recyclableBit: Int){
+    init(upc: String?, productName: String?, recyclableBit: Int, recycleMessage: String?){
         self.upc = upc
         self.productName = productName
         self.recyclableBit = recyclableBit
+        self.recycleMessage = recycleMessage
     }
 }
 
