@@ -18,10 +18,10 @@ import SQLite3
 class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
     var captureSession: AVCaptureSession!
     var previewLayer: AVCaptureVideoPreviewLayer!
-    var sharedProductBit: Int = -999
+    var sharedProductBit:Int = -1
+    var recycleMessage: String = ""
+    var productName: String = ""
     var db: OpaquePointer?
-    
-
     public weak var delegate: ScannerViewDelegate?
     
     override func viewDidLoad() {
@@ -96,11 +96,11 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
             guard let readableObject = metadataObject as? AVMetadataMachineReadableCodeObject else { return }
             guard let stringValue = readableObject.stringValue else { return }
             AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-            found(code: stringValue, productName: stringValue)
+            found(code: stringValue)
         }
     }
     
-    func found(code: String, productName: String) {
+    func found(code: String) {
         var statement: OpaquePointer?
         print(code)
         print(productName)
@@ -116,28 +116,42 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         
         let requestRecyclable = "select * from products WHERE UPC_ID = \"\(code)\""
         
-        if sqlite3_prepare_v2(db, requestRecyclable, -1, &statement, nil) != SQLITE_OK {
+            if sqlite3_prepare_v2(self.db, requestRecyclable, -1, &statement, nil) != SQLITE_OK {
             
             print("Error retrieving data")
             return
-        }
+            }
         
         while sqlite3_step(statement) == SQLITE_ROW {
-            let productName = String(cString: sqlite3_column_text(statement, 1))
-            let recyclableBit = Int(sqlite3_column_int(statement, 2))
-            let recycleMessage = String(cString: sqlite3_column_text(statement, 3))
-            print(recycleMessage)
-            let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+            productName = String(cString: sqlite3_column_text(statement, 1))
+            print(productName)
+            sharedProductBit = Int(sqlite3_column_int(statement, 2))
+            print(sharedProductBit)
+            recycleMessage = String(cString: sqlite3_column_text(statement, 3))
+           
+        }
+        let finalView = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+        let navController = UINavigationController(rootViewController: finalView)
+        if (sharedProductBit == 0){
+            finalView.recycle = sharedProductBit
+            present(navController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(finalView, animated: true)
+        } else if (sharedProductBit == 1) {
+            finalView.recycle = sharedProductBit
             finalView.text = productName
-            finalView.recycle = recyclableBit
             finalView.zeroWasteMessage = recycleMessage
-            let navController = UINavigationController(rootViewController: finalView)
+            present(navController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(finalView, animated: true)
+        } else if (sharedProductBit == -1){
+            finalView.recycle = sharedProductBit
             present(navController, animated: true, completion: nil)
             self.navigationController?.pushViewController(finalView, animated: true)
         }
+        
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .portrait
     }
 }
+
