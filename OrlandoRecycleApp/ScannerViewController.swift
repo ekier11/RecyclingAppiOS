@@ -117,7 +117,6 @@ class ScannerViewController: UIViewController, AVCaptureMetadataOutputObjectsDel
         let requestRecyclable = "select * from products WHERE UPC_ID = \"\(code)\""
         
             if sqlite3_prepare_v2(self.db, requestRecyclable, -1, &statement, nil) != SQLITE_OK {
-            
             print("Error retrieving data")
             return
             }

@@ -145,7 +145,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         }
         
         //Clears all detections and their hits every 7 seconds to prevent OCR staleness
-        if(detections.endIndex > 10 && lastFoundWords.elementsEqual(foundWords)){ //10 is Arbitrary
+        if(detections.endIndex > 7 && lastFoundWords.elementsEqual(foundWords)){ //7 is Arbitrary
             let elapsedTime = CFAbsoluteTimeGetCurrent() - initialTime
             print("DATAWORLD: [elapsedTime] - \(elapsedTime)")
             if(elapsedTime > 7) { //over 7 seconds
@@ -227,26 +227,31 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         var count = 0
         
         //Iterate through productList and mark matches of strings
-        for product in productList{
-            if((product.productName?.range(of: foundWords[0])) != nil){
-                detectionStrength[count] += 1
-            }
-            print("DATAWORLD: [[ detectionStrength - \(detectionStrength)]]")
-            count += 1
-        }
-        
-        //Find the array position of the highest detection product
+        var sumOfDetections:Int = 0
         var highestDetection:Int = -1
-        count = 0
-        while (count < detectionStrength.count){
-            if(detectionStrength[count] > highestDetection){
-                highestDetection = count
+        if(productList.count > 0){
+            for product in productList{
+                if((product.productName?.range(of: foundWords[0], options: .caseInsensitive)) != nil){
+                    detectionStrength[count] += 1
+                }
+                print("DATAWORLD: [[ detectionStrength - \(detectionStrength)]]")
+                count += 1
             }
-            print("DATAWORLD: [[ highestDetection - \(highestDetection)]]")
-            count += 1
+            
+            
+            
+            //Find the array position of the highest detection product
+            count = 0
+            while (count < detectionStrength.count){
+                if(detectionStrength[count] > highestDetection){
+                    highestDetection = count
+                }
+                print("DATAWORLD: [[ highestDetection - \(highestDetection)]]")
+                count += 1
+            }
+            sumOfDetections = detectionStrength.reduce(0, +)
+            print("DATAWORLD: [[ sumOfDetections - \(sumOfDetections)]]")
         }
-        let sumOfDetections = detectionStrength.reduce(0, +)
-        print("DATAWORLD: [[ sumOfDetections - \(sumOfDetections)]]")
         
         //Decide the answer based on detections
         if(sumOfDetections == 0){ //It aint here chief...
@@ -260,13 +265,18 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.productName)) ]]")
             print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.recyclableBit)) ]]")
             print("DATAWORLD: [[ Product Detected - \(String(describing: theChosenProduct.recycleMessage)) ]]")
-            sharedProductPrologue = "You most likely have"
             sharedProductName = theChosenProduct.productName!
             sharedProductBit = theChosenProduct.recyclableBit
             sharedProductInfo = theChosenProduct.recycleMessage!
+            print("DATAWORLD: $$$ spn=\(sharedProductName) spb=\(sharedProductBit) spi=\(sharedProductInfo)")
         }
-        let finalViewController = FinalViewController()
-        present(finalViewController, animated: true) //Change FinalViewController
+        let finalViewController = self.storyboard?.instantiateViewController(identifier: "FinalViewController") as! FinalViewController
+        let navController = UINavigationController(rootViewController: finalViewController)
+        finalViewController.text = sharedProductName
+        finalViewController.recycle = sharedProductBit
+        finalViewController.zeroWasteMessage = sharedProductInfo
+        present(navController, animated: true, completion: nil)
+        self.navigationController?.pushViewController(finalViewController, animated: true)
     }
     
     

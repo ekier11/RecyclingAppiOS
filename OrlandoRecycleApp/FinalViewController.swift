@@ -42,6 +42,8 @@ class FinalViewController: UIViewController, ScannerViewDelegate {
 
 extension FinalViewController {
     private func updateUI() {
+        
+        print("DATAWORLD: ******** bit: \(recycle)")
         //Handle "Recyclable" UILabel text
         if (recycle == 0) {
             recyclableResultLabel.text = "Is NOT Recyclable"
