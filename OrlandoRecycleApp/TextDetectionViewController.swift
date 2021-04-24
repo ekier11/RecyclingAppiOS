@@ -15,7 +15,6 @@ import SQLite3
 var db: OpaquePointer?
 var sharedProductName: String = "Product"
 var sharedProductInfo: String = "Product Info"
-var sharedProductPrologue: String = "You most likely have"
 var sharedProductBit: Int = -999
 
 
@@ -75,11 +74,6 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         
         //Create a buffer
         guard let pixelBuffer: CVPixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else{return}
-        
-        /*
-        //[OBJ] Process an Object Recognition request
-        objectRecognition(pixelBuffer: pixelBuffer);
-        */
          
         //[TXT] Create individual images from video feed, create an OCR request, and process it!
         let ciimage : CIImage = CIImage(cvPixelBuffer: pixelBuffer)
@@ -98,7 +92,6 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             try requestHandler.perform([request])
         } catch { print("DATAWORLD: Unable to perform the TXT request: \(error).") }
     }
-    
     
     //[TXT] ** Perform OCR on image **//
     func recognizeText(from request: VNRequest) -> String? {
@@ -148,7 +141,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         if(detections.endIndex > 7 && lastFoundWords.elementsEqual(foundWords)){ //7 is Arbitrary
             let elapsedTime = CFAbsoluteTimeGetCurrent() - initialTime
             print("DATAWORLD: [elapsedTime] - \(elapsedTime)")
-            if(elapsedTime > 7) { //over 7 seconds
+            if(elapsedTime > 7) {  //over 7 seconds
                 detections.removeAll()
                 hits.removeAll()
                 foundWords.removeAll()
@@ -156,7 +149,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
                 print("DATAWORLD: Arrays cleared.")
                 print("DATAWORLD: Arrays cleared.")
                 initialTime = CFAbsoluteTimeGetCurrent()
-                DispatchQueue.main.async() {            //update uilabels
+                DispatchQueue.main.async() {  //update uilabels
                     self.ocrData1.text = ""
                     self.ocrData2.text = ""
                     self.ocrData3.text = ""
@@ -238,8 +231,6 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
                 count += 1
             }
             
-            
-            
             //Find the array position of the highest detection product
             count = 0
             while (count < detectionStrength.count){
@@ -255,7 +246,6 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
         
         //Decide the answer based on detections
         if(sumOfDetections == 0){ //It aint here chief...
-            sharedProductPrologue = "No matches"
             sharedProductName = "Please try again."
             sharedProductBit = -1
             sharedProductInfo = ""
@@ -290,7 +280,6 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
             print("DATAWORLD: error opening database")
         }
         else { print("DATAWORLD: Successfully opened connection to DB at \(String(describing: dbUrl))") }
-        
         
         //Empty the list of Products
         productList.removeAll()
@@ -337,7 +326,7 @@ class TextDetectionViewController: UIViewController, AVCaptureVideoDataOutputSam
 }
 
 
-//[] The Object Class for the db import []//
+//The Object Class for the db import
 class Product {
     var upc: String?
     var productName: String?
@@ -351,25 +340,3 @@ class Product {
         self.recycleMessage = recycleMessage
     }
 }
-
-    
-/*
-    //** Creates and Processes Object Recognitions Requests **//
-    func objectRecognition(pixelBuffer:CVPixelBuffer){
-        //AI model. Resnet is larger but more accurate than SqueezeNet
-        guard let model = try? VNCoreMLModel(for: Resnet50().model) else{return}
-        
-        //Create Object Recognition request and process for Objects
-        let request_ObjectDetection = VNCoreMLRequest(model: model){ (finishedReq, err) in
-            guard let results = finishedReq.results as? [VNClassificationObservation] else{return}
-            guard let firstObservation = results.first else{return}
-            print("DATAWORLD: [OBJ]  " + firstObservation.identifier, firstObservation.confidence)
-            self.objDataText = "\(firstObservation.identifier)  \(firstObservation.confidence)"
-        }
-        
-        //Perform Object Recognition through request using buffer (showtime baby)
-        try? VNImageRequestHandler(cvPixelBuffer: pixelBuffer, options: [:]).perform([request_ObjectDetection])
-    }
-}
-*/
-
